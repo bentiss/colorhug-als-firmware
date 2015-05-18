@@ -60,23 +60,12 @@ ROM BYTE configDescriptor1[]={
 	/* Configuration Descriptor */
 	0x09,			/* Size of this descriptor in bytes */
 	USB_DESCRIPTOR_CONFIGURATION,	/* CONFIGURATION descriptor type */
-	0x32,0x00,			/* Total length of data */
+	0x29,0x00,			/* Total length of data */
 	1,				/* Number of interfaces */
 	1,				/* Index value of this configuration */
 	0,				/* Configuration string index */
 	_DEFAULT | _SELF,		/* Attributes (this device is self-powered, but has no remote wakeup), see usb_device.h */
-	150,				/* Max power consumption (2X mA)
-
-	/* Interface Descriptor */
-	0x09,				/* Size of this descriptor in bytes */
-	USB_DESCRIPTOR_INTERFACE,	/* INTERFACE descriptor type */
-	1,				/* Interface Number */
-	0,				/* Alternate Setting Number */
-	0,				/* Number of endpoints in this intf */
-	0xff,				/* Class code */
-	'F',				/* Subclass code */
-	'W',				/* Protocol code */
-	0x03,				/* Interface string index */
+	150,				/* Max power consumption (2X mA) */
 
 	/* Interface Descriptor */
 	0x09,   			/* Size of this descriptor in bytes */
