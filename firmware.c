@@ -55,7 +55,6 @@ static uint8_t		idle_command = 0x00;
 static uint8_t		idle_counter = 0x00;
 
 /* USB buffers */
-static uint8_t RxBuffer[CH_USB_HID_EP_SIZE];
 static uint8_t TxBuffer[CH_USB_HID_EP_SIZE];
 USB_HANDLE		USBOutHandle = 0;
 USB_HANDLE		USBInHandle = 0;
@@ -145,121 +144,30 @@ static void
 ProcessIO(void)
 {
 	uint32_t reading;
-	uint8_t cmd;
-	uint8_t rc = CH_ERROR_NONE;
 
 	/* User Application USB tasks */
 	if ((USBDeviceState < CONFIGURED_STATE) ||
 	    (USBSuspendControl == 1))
 		return;
 
-	/* no data was received */
-	if (HIDRxHandleBusy(USBOutHandle)) {
-		if (idle_counter++ == 0xff &&
-		    idle_command != 0x00)
-			CHugDeviceIdle();
-		return;
-	}
+	if(!HIDTxHandleBusy(USBInHandle)) {
+		/* clear for debugging */
+		memset (TxBuffer, 0xff, sizeof (TxBuffer));
 
-	/* we're waiting for a read from the host */
-	if (HIDTxHandleBusy(USBInHandle)) {
-		/* hijack the pending read with the new error */
-		TxBuffer[CH_BUFFER_OUTPUT_RETVAL] = CH_ERROR_INCOMPLETE_REQUEST;
-		goto re_arm_rx;
-	}
+		CHugSetMultiplier(CH_FREQ_SCALE_100);
 
-	/* got data, reset idle counter */
-	idle_counter = 0;
-
-	/* clear for debugging */
-	memset (TxBuffer, 0xff, sizeof (TxBuffer));
-
-	cmd = RxBuffer[CH_BUFFER_INPUT_CMD];
-	switch(cmd) {
-	case CH_CMD_GET_HARDWARE_VERSION:
-		TxBuffer[CH_BUFFER_OUTPUT_DATA] = 0x04;
-		break;
-	case CH_CMD_GET_COLOR_SELECT:
-		TxBuffer[CH_BUFFER_OUTPUT_DATA] = CHugGetColorSelect();
-		break;
-	case CH_CMD_SET_COLOR_SELECT:
-		CHugSetColorSelect(RxBuffer[CH_BUFFER_INPUT_DATA]);
-		break;
-	case CH_CMD_GET_LEDS:
-		TxBuffer[CH_BUFFER_OUTPUT_DATA] = CHugGetLEDs();
-		break;
-	case CH_CMD_SET_LEDS:
-		CHugSetLEDs(RxBuffer[CH_BUFFER_INPUT_DATA + 0]);
-		break;
-	case CH_CMD_GET_MULTIPLIER:
-		TxBuffer[CH_BUFFER_OUTPUT_DATA] = CHugGetMultiplier();
-		break;
-	case CH_CMD_SET_MULTIPLIER:
-		CHugSetMultiplier(RxBuffer[CH_BUFFER_INPUT_DATA]);
-		break;
-	case CH_CMD_GET_INTEGRAL_TIME:
-		memcpy (&TxBuffer[CH_BUFFER_OUTPUT_DATA],
-			(void *) &SensorIntegralTime,
-			2);
-		break;
-	case CH_CMD_SET_INTEGRAL_TIME:
-		memcpy (&SensorIntegralTime,
-			(const void *) &RxBuffer[CH_BUFFER_INPUT_DATA],
-			2);
-		break;
-	case CH_CMD_GET_FIRMWARE_VERSION:
-		*((uint16_t *) &TxBuffer[CH_BUFFER_OUTPUT_DATA + 0]) = CH_VERSION_MAJOR;
-		*((uint16_t *) &TxBuffer[CH_BUFFER_OUTPUT_DATA + 2]) = CH_VERSION_MINOR;
-		*((uint16_t *) &TxBuffer[CH_BUFFER_OUTPUT_DATA + 4]) = CH_VERSION_MICRO;
-		break;
-	case CH_CMD_GET_SERIAL_NUMBER:
-		reading = 0x0;
-		memcpy (&TxBuffer[CH_BUFFER_OUTPUT_DATA],
-			(const void *) &reading,
-			4);
-		break;
-	case CH_CMD_TAKE_READING_RAW:
-		/* take a single reading */
 		reading = CHugTakeReadingRaw(SensorIntegralTime);
 		memcpy (&TxBuffer[CH_BUFFER_OUTPUT_DATA],
 			(const void *) &reading,
 			sizeof(uint32_t));
-		break;
-	case CH_CMD_RESET:
-		/* only reset when USB stack is not busy */
-		idle_command = CH_CMD_RESET;
-		break;
-	case CH_CMD_SET_FLASH_SUCCESS:
-		if (RxBuffer[CH_BUFFER_INPUT_DATA] != 0x01 &&
-		    RxBuffer[CH_BUFFER_INPUT_DATA] != 0xff) {
-			rc = CH_ERROR_INVALID_VALUE;
-			break;
-		}
-		rc = CHugFlashErase(CH_EEPROM_ADDR_FLASH_SUCCESS,
-				    CH_FLASH_ERASE_BLOCK_SIZE);
-		if (rc != CH_ERROR_NONE)
-			break;
-		rc = CHugFlashWrite(CH_EEPROM_ADDR_FLASH_SUCCESS, 1,
-				    &RxBuffer[CH_BUFFER_INPUT_DATA]);
-		break;
-	default:
-		rc = CH_ERROR_UNKNOWN_CMD;
-		break;
-	}
 
-	/* always send return code */
-	if(!HIDTxHandleBusy(USBInHandle)) {
-		TxBuffer[CH_BUFFER_OUTPUT_RETVAL] = rc;
-		TxBuffer[CH_BUFFER_OUTPUT_CMD] = cmd;
+		TxBuffer[CH_BUFFER_OUTPUT_RETVAL] = 01;
+		TxBuffer[CH_BUFFER_OUTPUT_CMD] = 01;
 		USBInHandle = HIDTxPacket(HID_EP,
 					  (BYTE*)&TxBuffer[0],
 					  CH_USB_HID_EP_SIZE);
+		CHugSetMultiplier(CH_FREQ_SCALE_0);
 	}
-re_arm_rx:
-	/* re-arm the OUT endpoint for the next packet */
-	USBOutHandle = HIDRxPacket(HID_EP,
-				   (BYTE*)&RxBuffer,
-				   CH_USB_HID_EP_SIZE);
 }
 
 /**
@@ -295,14 +203,8 @@ USER_USB_CALLBACK_EVENT_HANDLER(int event, void *pdata, WORD size)
 		/* enable the HID endpoint */
 		USBEnableEndpoint(HID_EP,
 				  USB_IN_ENABLED|
-				  USB_OUT_ENABLED|
 				  USB_HANDSHAKE_ENABLED|
 				  USB_DISALLOW_SETUP);
-
-		/* re-arm the OUT endpoint for the next packet */
-		USBOutHandle = HIDRxPacket(HID_EP,
-					   (BYTE*)&RxBuffer,
-					   CH_USB_HID_EP_SIZE);
 		break;
 	case EVENT_EP0_REQUEST:
 		USBCheckHIDRequest();
