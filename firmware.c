@@ -52,7 +52,7 @@ static const char flash_id[] = CH_FIRMWARE_ID_TOKEN;
 
 /* USB idle support */
 static uint8_t		idle_command = 0x00;
-static uint8_t		idle_counter = 0x00;
+static uint16_t		idle_counter = 0x00;
 
 /* USB buffers */
 static uint8_t TxBuffer[CH_USB_HID_EP_SIZE];
@@ -148,6 +148,10 @@ ProcessIO(void)
 	/* User Application USB tasks */
 	if ((USBDeviceState < CONFIGURED_STATE) ||
 	    (USBSuspendControl == 1))
+		return;
+
+	/* prevent to send too many readings */
+	if (idle_counter++ != 0x00)
 		return;
 
 	if(!HIDTxHandleBusy(USBInHandle)) {
