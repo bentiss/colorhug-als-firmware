@@ -64,18 +64,18 @@ CFLAGS  +=							\
 # 0000
 #  | <--- Bootloader (crossing 2 pages)
 # 0f9b
-# 1f9c
+# 0f9c
 #  | <--- Config space
-# 1fff
+# 0fff
 # 1000
 #  | <--- Firmware (crossing 2 pages)
-# 1f9b
-# 1f9c
+# 1fbf
+# 1fc0
 #  | <--- Flash success
 # 1fff
 firmware_CFLAGS =						\
 	${CFLAGS}						\
-	--rom=1000-17ff,1800-1f9b				\
+	--rom=1000-17ff,1800-1fbf				\
 	--codeoffset=0x1000
 bootloader_CFLAGS =						\
 	${CFLAGS}						\
