@@ -60,7 +60,7 @@ static uint8_t		idle_command = 0x00;
 static uint16_t		idle_counter = 0x00;
 
 /* USB buffers */
-static uint8_t TxBuffer[CH_USB_HID_EP_SIZE];
+static struct input_report TxBuffer;
 static union feature_report TxFeature;
 static union feature_report RxFeature;
 USB_HANDLE		USBOutHandle = 0;
@@ -150,8 +150,6 @@ CHugDeviceIdle(void)
 static void
 ProcessIO(void)
 {
-	uint32_t reading;
-
 	/* User Application USB tasks */
 	if ((USBDeviceState < CONFIGURED_STATE) ||
 	    (USBSuspendControl == 1))
@@ -163,20 +161,16 @@ ProcessIO(void)
 
 	if(!HIDTxHandleBusy(USBInHandle)) {
 		/* clear for debugging */
-		memset (TxBuffer, 0xff, sizeof (TxBuffer));
+		memset ((uint8_t *)&TxBuffer, 0xff, sizeof (TxBuffer));
 
 		CHugSetMultiplier(CH_FREQ_SCALE_100);
 
-		reading = CHugTakeReadingRaw(SensorIntegralTime);
-		memcpy (&TxBuffer[CH_BUFFER_OUTPUT_DATA],
-			(const void *) &reading,
-			sizeof(uint32_t));
+		TxBuffer.report_id = CH_REPORT_HID_SENSOR;
+		TxBuffer.illuminance = CHugTakeReadingRaw(SensorIntegralTime);
 
-		TxBuffer[CH_BUFFER_OUTPUT_RETVAL] = 01;
-		TxBuffer[CH_BUFFER_OUTPUT_CMD] = 01;
 		USBInHandle = HIDTxPacket(HID_EP,
-					  (BYTE*)&TxBuffer[0],
-					  CH_USB_HID_EP_SIZE);
+					  (BYTE*)&TxBuffer,
+					  sizeof(TxBuffer));
 		CHugSetMultiplier(CH_FREQ_SCALE_0);
 	}
 }

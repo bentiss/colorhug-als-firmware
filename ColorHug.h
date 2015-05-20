@@ -46,6 +46,11 @@
 #define CH_REPORT_SENSOR_SETTINGS		0x02
 #define CH_REPORT_SYSTEM_SETTINGS		0x03
 
+struct input_report {
+	uint8_t report_id;
+	uint32_t illuminance;
+};
+
 struct sensor_settings {
 	uint8_t report_id;
 	uint8_t color_select;
