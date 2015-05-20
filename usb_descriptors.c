@@ -55,6 +55,7 @@ ROM USB_DEVICE_DESCRIPTOR device_dsc=
 	0x01				/* Number of possible configurations */
 };
 
+#ifdef COLORHUG_BOOTLOADER
 /* Configuration 1 Descriptor */
 ROM BYTE configDescriptor1[]={
 	/* Configuration Descriptor */
@@ -103,6 +104,48 @@ ROM BYTE configDescriptor1[]={
 	0x40,0x00,			/* size (with extra byte) */
 	0x01				/* polling interval */
 };
+#else
+/* Configuration 1 Descriptor */
+ROM BYTE configDescriptor1[]={
+	/* Configuration Descriptor */
+	0x09,			/* Size of this descriptor in bytes */
+	USB_DESCRIPTOR_CONFIGURATION,	/* CONFIGURATION descriptor type */
+	0x22,0x00,			/* Total length of data */
+	1,				/* Number of interfaces */
+	1,				/* Index value of this configuration */
+	0,				/* Configuration string index */
+	_DEFAULT | _SELF,		/* Attributes (this device is self-powered, but has no remote wakeup), see usb_device.h */
+	150,				/* Max power consumption (2X mA) */
+
+	/* Interface Descriptor */
+	0x09,   			/* Size of this descriptor in bytes */
+	USB_DESCRIPTOR_INTERFACE,	/* INTERFACE descriptor type */
+	0,				/* Interface Number */
+	0,				/* Alternate Setting Number */
+	1,				/* Number of endpoints in this intf */
+	HID_INTF,			/* Class code */
+	0,				/* Subclass code */
+	0,				/* Protocol code */
+	0,				/* Interface string index */
+
+	/* HID Class-Specific Descriptor */
+	0x09,				/* Size of this descriptor in bytes */
+	DSC_HID,			/* HID descriptor type */
+	0x11,0x01,			/* HID Spec Release Number (BCD format) */
+	0x00,				/* Country Code (0x00 for Not supported) */
+	HID_NUM_OF_DSC,			/* Number of class descriptors, see usbcfg.h */
+	DSC_RPT,			/* Report descriptor type */
+	HID_RPT01_SIZE,0x00,		/* Size of the report descriptor (with extra byte) */
+
+	/* Endpoint Descriptor */
+	0x07,
+	USB_DESCRIPTOR_ENDPOINT,	/* Endpoint Descriptor */
+	HID_EP | _EP_IN,		/* EndpointAddress */
+	_INTERRUPT,			/* Attributes */
+	0x40,0x00,			/* size (with extra byte) */
+	0x01,				/* polling interval */
+};
+#endif
 
 /* Language code string descriptor */
 static ROM struct
