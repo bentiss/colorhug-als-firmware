@@ -173,6 +173,7 @@ ROM struct
 	BYTE report[HID_RPT01_SIZE];
 } hid_rpt01 = {
 {
+#ifdef COLORHUG_BOOTLOADER
 	0x06, 0x00, 0xFF,		/* Usage Page = 0xFF00 (Vendor Defined Page 1) */
 	0x09, 0x01,			/* Usage (Vendor Usage 1) */
 	0xA1, 0x01,			/* Collection (Application) */
@@ -186,7 +187,57 @@ ROM struct
 	0x19, 0x01,			/* Usage Minimum */
 	0x29, 0x40,			/* Usage Maximum - 64 output usages total (0x01 to 0x40) */
 	0x91, 0x02,			/* Output (Data, Array, Abs): Instantiates output packet fields.  Uses same report size and count as "Input" fields, since nothing new/different was specified to the parser since the "Input" item. */
-	0xC0}				/* End Collection */
+	0xC0				/* End Collection */
+#else
+	0x05, 0x20,			/* Usage Page (Sensor)				*/
+	0x09, 0x01,			/* Usage (Sensor)				*/
+	0xa1, 0x01,			/* Collection (Application)			*/
+	0x09, 0x41,			/*  Usage (Light Ambient Light)			*/
+//	0xa1, 0x00,			/*  Collection (Physical)			*/
+	0x85, 0x01,			/*   Report ID (1)				*/
+	0xa1, 0x01,			/*   Collection (Application)			*/
+	0x0a, 0xd1, 0x04,		/*    Usage (Data Field: Illuminance)		*/
+	0x75, 0x20,			/*    Report Size (32)				*/
+	0x95, 0x01,			/*    Report Count (1)				*/
+	0x81, 0x02,			/*    Input (Data,Var,Abs)			*/
+	0xc0,				/*   End Collection				*/
+	0x06, 0xc0, 0xff,		/*   Usage Page (Vendor Usage Page 0xffc0)	*/
+	0x09, 0x02,			/*   Usage (Vendor Usage 0x02)			*/
+	0xa1, 0x01,			/*   Collection (Application)			*/
+	0x85, 0x02,			/*    Report ID (2)				*/
+	0x09, 0x01,			/*    Usage (Vendor Usage 0x01)			*/
+	0x09, 0x0d,			/*    Usage (Vendor Usage 0x0d)			*/
+	0x09, 0x03,			/*    Usage (Vendor Usage 0x03)			*/
+	0x95, 0x03,			/*    Report Count (3)				*/
+	0xb1, 0x22,			/*    Feature (Data,Var,Abs,NoPref)		*/
+	0x09, 0x05,			/*    Usage (Vendor Usage 0x05)			*/
+	0x75, 0x10,			/*    Report Size (16)				*/
+	0x95, 0x01,			/*    Report Count (1)				*/
+	0xb1, 0x22,			/*    Feature (Data,Var,Abs,NoPref)		*/
+	0xc0,				/*   End Collection				*/
+	0x09, 0x03,			/*   Usage (Vendor Usage 0x03)			*/
+	0xa1, 0x01,			/*   Collection (Application)			*/
+	0x85, 0x03,			/*    Report ID (3)				*/
+	0x09, 0x30,			/*    Usage (Vendor Usage 0x30)			*/
+	0x75, 0x08,			/*    Report Size (8)				*/
+	0x95, 0x01,			/*    Report Count (1)				*/
+	0xb1, 0x22,			/*    Feature (Data,Var,Abs,NoPref)		*/
+	0x09, 0x07,			/*    Usage (Vendor Usage 0x07)			*/
+	0x75, 0x30,			/*    Report Size (48)				*/
+	0x95, 0x01,			/*    Report Count (1)				*/
+	0xb1, 0x22,			/*    Feature (Data,Var,Abs,NoPref)		*/
+	0x09, 0x0b,			/*    Usage (Vendor Usage 0x0b)			*/
+	0x75, 0x20,			/*    Report Size (32)				*/
+	0xb1, 0x22,			/*    Feature (Data,Var,Abs,NoPref)		*/
+	0x09, 0x24,			/*    Usage (Vendor Usage 0x24)			*/
+	0x09, 0x28,			/*    Usage (Vendor Usage 0x28)			*/
+	0x75, 0x08,			/*    Report Size (8)				*/
+	0x95, 0x02,			/*    Report Count (2)				*/
+	0xc0,				/*   End Collection				*/
+//	0xc0,				/*  End Collection				*/
+	0xc0,				/* End Collection				*/
+#endif
+}
 };
 
 /* only one configuration descriptor */
