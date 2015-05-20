@@ -20,3 +20,4 @@ funclist
 *.sdb
 *.mum
 *.sym
+contrib/hid-example
