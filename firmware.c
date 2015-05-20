@@ -172,6 +172,12 @@ ProcessIO(void)
 					  (BYTE*)&TxBuffer,
 					  sizeof(TxBuffer));
 		CHugSetMultiplier(CH_FREQ_SCALE_0);
+	} else {
+		/* nobody reads */
+		if (idle_command != 0x00) {
+			CHugDeviceIdle();
+			return;
+		}
 	}
 }
 
