@@ -42,6 +42,29 @@
 #define CH_VERSION_MINOR			0
 #define CH_VERSION_MICRO			0
 
+#define CH_REPORT_HID_SENSOR			0x01
+#define CH_REPORT_SENSOR_SETTINGS		0x02
+#define CH_REPORT_SYSTEM_SETTINGS		0x03
+
+struct sensor_settings {
+	uint8_t report_id;
+	uint8_t color_select;
+	uint8_t LEDs_state;
+	uint8_t multiplier;
+	uint16_t integral_time;
+};
+
+struct system_settings {
+	uint8_t report_id;
+	uint8_t hardware_version;
+	uint16_t version_major;
+	uint16_t version_minor;
+	uint16_t version_micro;
+	uint32_t serial;
+	uint8_t reset;
+	uint8_t flash_flag;
+};
+
 /**
  * CH_CMD_GET_COLOR_SELECT:
  *
