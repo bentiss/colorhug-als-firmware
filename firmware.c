@@ -300,6 +300,21 @@ UserGetReportHandler(void)
 	USBEP0SendRAMPtr((uint8_t*)&TxFeature, bytesToSend, USB_EP0_RAM);
 }
 
+static uint8_t
+CHugSetFlashSuccess(void)
+{
+	uint8_t rc;
+
+	/* TODO check if we are not sending data */
+	rc = CHugFlashErase(CH_EEPROM_ADDR_FLASH_SUCCESS,
+			    CH_FLASH_ERASE_BLOCK_SIZE);
+	if (rc != CH_ERROR_NONE)
+		return rc;
+
+	return CHugFlashWrite(CH_EEPROM_ADDR_FLASH_SUCCESS, 1,
+			      &RxFeature.system.flash_flag);
+}
+
 /*
  * Called when USBEP0Receive from SET_REPORT completes.
  */
@@ -316,10 +331,12 @@ USB_HID_CB_SetReportComplete(void)
 			SensorIntegralTime = RxFeature.sensor.integral_time;
 			break;
 		case CH_REPORT_SYSTEM_SETTINGS:
+			if (RxFeature.system.flash_flag)
+				CHugSetFlashSuccess();
+
+			/* the reset flag has to be checked last */
 			if (RxFeature.system.reset)
 				idle_command = CH_CMD_RESET;
-			/* if (RxFeature.system.flash_flag)
-				WRITE FLASH_SUCCESS */
 			break;
 	}
 }
