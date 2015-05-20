@@ -24,6 +24,7 @@
  * Copyright (C) Microchip Technology, Inc.
  */
 
+#include <xc.h>
 #include "ColorHug.h"
 #include "HardwareProfile.h"
 #include "usb_config.h"

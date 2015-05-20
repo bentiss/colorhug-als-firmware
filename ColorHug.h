@@ -22,7 +22,6 @@
 #ifndef COLOR_HUG_H
 #define COLOR_HUG_H
 
-#include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
 

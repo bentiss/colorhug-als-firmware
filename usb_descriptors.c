@@ -24,10 +24,11 @@
  * Copyright (C) Microchip Technology, Inc.
  */
 
-#include "ColorHug.h"
-
 #ifndef __USB_DESCRIPTORS_C
 #define __USB_DESCRIPTORS_C
+
+#include <xc.h>
+#include "ColorHug.h"
 
 #include <USB/usb.h>
 #include <USB/usb_function_hid.h>

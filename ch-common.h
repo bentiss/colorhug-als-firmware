@@ -22,6 +22,7 @@
 #ifndef __CH_COMMON_H
 #define __CH_COMMON_H
 
+#include <xc.h>
 #include "ColorHug.h"
 
 ChColorSelect	 CHugGetColorSelect	(void);
