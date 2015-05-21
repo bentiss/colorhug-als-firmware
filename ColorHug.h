@@ -391,7 +391,6 @@ typedef enum {
 	CH_READY,
 	CH_NOT_AVAILABLE,
 	CH_NO_DATA_SEL,
-	CH_INITIALIZING,
 	CH_ACCESS_DENIED,
 	CH_ERROR
 } ChSensorState;
@@ -402,7 +401,6 @@ typedef enum {
 	CH_PROPERTY_CHANGED,
 	CH_DATA_UPDATED,
 	CH_POLL_RESPONSE,
-	CH_CHANGE_SENSITIVITY
 } ChSensorEvent;
 
 /* fatal error morse code */

@@ -289,7 +289,7 @@ ROM struct
 	0x05, 0x20,			/*   Usage Page (Sensor)			*/
 	0x0a, 0x01, 0x02,		/*   Usage (Event: Sensor State)		*/
 	0x15, 0x00,			/*   Logical Minimum (0)			*/
-	0x25, 0x06,			/*   Logical Maximum (6)			*/
+	0x25, 0x05,			/*   Logical Maximum (5)			*/
 	0x75, 0x08,			/*   Report Size (8)				*/
 	0x95, 0x01,			/*   Report Count (1)				*/
 	0xa1, 0x02,			/*   Collection (Logical)			*/
@@ -297,21 +297,19 @@ ROM struct
 	0x0a, 0x01, 0x08,		/*    Usage (Sensor State: Ready)		*/
 	0x0a, 0x02, 0x08,		/*    Usage (Sensor State: Not Available)	*/
 	0x0a, 0x03, 0x08,		/*    Usage (Sensor State: No Data Sel)		*/
-	0x0a, 0x04, 0x08,		/*    Usage (Sensor State: Initializing)	*/
 	0x0a, 0x05, 0x08,		/*    Usage (Sensor State: Access Denied)	*/
 	0x0a, 0x06, 0x08,		/*    Usage (Sensor State: Error)		*/
 	0x81, 0x00,			/*    Input (Data,Arr,Abs)			*/
 	0xc0,				/*   End Collection				*/
 	0x0a, 0x02, 0x02,		/*   Usage (Event: Sensor Event)		*/
 	0x15, 0x00,			/*   Logical Minimum (0)			*/
-	0x25, 0x05,			/*   Logical Maximum (5)			*/
+	0x25, 0x04,			/*   Logical Maximum (4)			*/
 	0xa1, 0x02,			/*   Collection (Logical)			*/
 	0x0a, 0x10, 0x08,		/*    Usage (Sensor Event: Unknown)		*/
 	0x0a, 0x11, 0x08,		/*    Usage (Sensor Event: State Changed)	*/
 	0x0a, 0x12, 0x08,		/*    Usage (Sensor Event: Property Changed)	*/
 	0x0a, 0x13, 0x08,		/*    Usage (Sensor Event: Data Updated)	*/
 	0x0a, 0x14, 0x08,		/*    Usage (Sensor Event: Poll Response)	*/
-	0x0a, 0x15, 0x08,		/*    Usage (Sensor Event: Change Sensitivity)	*/
 	0x81, 0x00,			/*    Input (Data,Arr,Abs)			*/
 	0xc0,				/*   End Collection				*/
 	0x0a, 0xd1, 0x04,		/*   Usage (Data Field: Illuminance)		*/
