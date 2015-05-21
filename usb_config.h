@@ -69,7 +69,7 @@
 
 #else
 
-#define HID_RPT01_SIZE			266
+#define HID_RPT01_SIZE			269
 
 #define USER_GET_REPORT_HANDLER CHugGetReportHandler
 #define USER_SET_REPORT_HANDLER CHugSetReportHandler

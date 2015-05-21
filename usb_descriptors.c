@@ -237,7 +237,7 @@ ROM struct
 	0x09, 0x01,			/* Usage (Sensor)				*/
 	0xa1, 0x01,			/* Collection (Application)			*/
 	0x09, 0x41,			/*  Usage (Light Ambient Light)			*/
-//	0xa1, 0x00,			/*  Collection (Physical)			*/
+	0xa1, 0x00,			/*  Collection (Physical)			*/
 	0x85, 0x01,			/*   Report ID (1)				*/
 	0x0a, 0x09, 0x03,		/*   Usage (Property: Sensor Connection Type)	*/
 	0x15, 0x00,			/*   Logical Minimum (0)			*/
@@ -351,7 +351,7 @@ ROM struct
 	0x75, 0x08,			/*    Report Size (8)				*/
 	0x95, 0x02,			/*    Report Count (2)				*/
 	0xc0,				/*   End Collection				*/
-//	0xc0,				/*  End Collection				*/
+	0xc0,				/*  End Collection				*/
 	0xc0,				/* End Collection				*/
 #endif
 }
