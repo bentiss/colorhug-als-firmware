@@ -38,6 +38,7 @@
 #include <USB/usb_function_hid.h>
 
 union feature_report {
+	struct hid_sensor_feature hid;
 	struct sensor_settings sensor;
 	struct system_settings system;
 };
@@ -270,8 +271,13 @@ CHugGetReportHandler(void)
 
 	switch (SetupPkt.wValue & 0x00ff) {
 		case CH_REPORT_HID_SENSOR:
-			TxFeature.sensor.report_id = CH_REPORT_HID_SENSOR;
-			bytesToSend = 1;
+			TxFeature.hid.report_id = CH_REPORT_HID_SENSOR;
+			TxFeature.hid.connection_type = 0x01; /* PC External */
+			TxFeature.hid.reporting_state = 0x02; /* Report All Events */
+			TxFeature.hid.power_state = 0x01; /* Full Power */
+			TxFeature.hid.sensor_state = CH_READY;
+			TxFeature.hid.report_interval = 1000;
+			bytesToSend = sizeof(struct hid_sensor_feature);
 			break;
 		case CH_REPORT_SENSOR_SETTINGS:
 			TxFeature.sensor.report_id = CH_REPORT_SENSOR_SETTINGS;

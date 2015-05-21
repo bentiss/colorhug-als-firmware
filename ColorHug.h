@@ -52,6 +52,15 @@ struct input_report {
 	uint32_t illuminance;
 };
 
+struct hid_sensor_feature {
+	uint8_t report_id;
+	uint8_t connection_type;
+	uint8_t reporting_state;
+	uint8_t power_state;
+	uint8_t sensor_state;
+	uint32_t report_interval;
+};
+
 struct sensor_settings {
 	uint8_t report_id;
 	uint8_t color_select;
