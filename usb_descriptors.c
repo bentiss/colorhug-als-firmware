@@ -136,7 +136,7 @@ ROM BYTE configDescriptor1[]={
 	0x00,				/* Country Code (0x00 for Not supported) */
 	HID_NUM_OF_DSC,			/* Number of class descriptors, see usbcfg.h */
 	DSC_RPT,			/* Report descriptor type */
-	HID_RPT01_SIZE,0x00,		/* Size of the report descriptor (with extra byte) */
+	HID_RPT01_SIZE & 0xff, HID_RPT01_SIZE >> 8,	/* Size of the report descriptor */
 
 	/* Endpoint Descriptor */
 	0x07,
