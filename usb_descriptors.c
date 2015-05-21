@@ -239,12 +239,97 @@ ROM struct
 	0x09, 0x41,			/*  Usage (Light Ambient Light)			*/
 //	0xa1, 0x00,			/*  Collection (Physical)			*/
 	0x85, 0x01,			/*   Report ID (1)				*/
-	0xa1, 0x01,			/*   Collection (Application)			*/
-	0x0a, 0xd1, 0x04,		/*    Usage (Data Field: Illuminance)		*/
-	0x75, 0x20,			/*    Report Size (32)				*/
-	0x95, 0x01,			/*    Report Count (1)				*/
-	0x81, 0x02,			/*    Input (Data,Var,Abs)			*/
+	0x0a, 0x09, 0x03,		/*   Usage (Property: Sensor Connection Type)	*/
+	0x15, 0x00,			/*   Logical Minimum (0)			*/
+	0x25, 0x01,			/*   Logical Maximum (1)			*/
+	0x75, 0x08,			/*   Report Size (8)				*/
+	0x95, 0x01,			/*   Report Count (1)				*/
+	0xa1, 0x02,			/*   Collection (Logical)			*/
+	0x0a, 0x31, 0x08,		/*    Usage (Connection Type: PC Attached)	*/
+	0x0a, 0x32, 0x08,		/*    Usage (Connection Type: PC External)	*/
+	0xb1, 0x00,			/*    Feature (Data,Arr,Abs)			*/
 	0xc0,				/*   End Collection				*/
+	0x0a, 0x16, 0x03,		/*   Usage (Property: Reporting State)		*/
+	0x15, 0x00,			/*   Logical Minimum (0)			*/
+	0x25, 0x02,			/*   Logical Maximum (2)			*/
+	0x75, 0x08,			/*   Report Size (8)				*/
+	0x95, 0x01,			/*   Report Count (1)				*/
+	0xa1, 0x02,			/*   Collection (Logical)			*/
+	0x0a, 0x40, 0x08,		/*    Usage (Reporting State: Report No Events)	*/
+	0x0a, 0x41, 0x08,		/*    Usage (Reporting State: Report All Events)*/
+	0x0a, 0x42, 0x08,		/*    Usage (Reporting State: Report Threshold Events)*/
+	0xb1, 0x00,			/*    Feature (Data,Arr,Abs)			*/
+	0xc0,				/*   End Collection				*/
+	0x0a, 0x19, 0x03,		/*   Usage (Property: Power State)		*/
+	0x15, 0x00,			/*   Logical Minimum (0)			*/
+	0x25, 0x02,			/*   Logical Maximum (2)			*/
+	0x75, 0x08,			/*   Report Size (8)				*/
+	0x95, 0x01,			/*   Report Count (1)				*/
+	0xa1, 0x02,			/*   Collection (Logical)			*/
+	0x0a, 0x50, 0x08,		/*    Usage (Power State: Undefined)		*/
+	0x0a, 0x51, 0x08,		/*    Usage (Power State: D0 Full Power)	*/
+	0x0a, 0x52, 0x08,		/*    Usage (Power State: D1 Low Power)		*/
+	0xb1, 0x00,			/*    Feature (Data,Arr,Abs)			*/
+	0xc0,				/*   End Collection				*/
+	0x0a, 0x01, 0x02,		/*   Usage (Event: Sensor State)		*/
+	0x15, 0x00,			/*   Logical Minimum (0)			*/
+	0x25, 0x06,			/*   Logical Maximum (6)			*/
+	0x75, 0x08,			/*   Report Size (8)				*/
+	0x95, 0x01,			/*   Report Count (1)				*/
+	0xa1, 0x02,			/*   Collection (Logical)			*/
+	0x0a, 0x00, 0x08,		/*    Usage (Sensor State: Undefined)		*/
+	0x0a, 0x01, 0x08,		/*    Usage (Sensor State: Ready)		*/
+	0x0a, 0x02, 0x08,		/*    Usage (Sensor State: Not Available)	*/
+	0x0a, 0x03, 0x08,		/*    Usage (Sensor State: No Data Sel)		*/
+	0x0a, 0x04, 0x08,		/*    Usage (Sensor State: Initializing)	*/
+	0x0a, 0x05, 0x08,		/*    Usage (Sensor State: Access Denied)	*/
+	0x0a, 0x06, 0x08,		/*    Usage (Sensor State: Error)		*/
+	0xb1, 0x00,			/*    Feature (Data,Arr,Abs)			*/
+	0xc0,				/*   End Collection				*/
+	0x0a, 0x0e, 0x03,		/*   Usage (Property: Report Interval)		*/
+	0x15, 0x00,			/*   Logical Minimum (0)			*/
+	0x27, 0xff, 0xff, 0xff, 0xff,	/*   Logical Maximum (4294967295)		*/
+	0x75, 0x20,			/*   Report Size (32)				*/
+	0x95, 0x01,			/*   Report Count (1)				*/
+	0x55, 0x00,			/*   Unit Exponent (0)				*/
+	0xb1, 0x02,			/*   Feature (Data,Var,Abs)			*/
+	0x05, 0x20,			/*   Usage Page (Sensor)			*/
+	0x0a, 0x01, 0x02,		/*   Usage (Event: Sensor State)		*/
+	0x15, 0x00,			/*   Logical Minimum (0)			*/
+	0x25, 0x06,			/*   Logical Maximum (6)			*/
+	0x75, 0x08,			/*   Report Size (8)				*/
+	0x95, 0x01,			/*   Report Count (1)				*/
+	0xa1, 0x02,			/*   Collection (Logical)			*/
+	0x0a, 0x00, 0x08,		/*    Usage (Sensor State: Undefined)		*/
+	0x0a, 0x01, 0x08,		/*    Usage (Sensor State: Ready)		*/
+	0x0a, 0x02, 0x08,		/*    Usage (Sensor State: Not Available)	*/
+	0x0a, 0x03, 0x08,		/*    Usage (Sensor State: No Data Sel)		*/
+	0x0a, 0x04, 0x08,		/*    Usage (Sensor State: Initializing)	*/
+	0x0a, 0x05, 0x08,		/*    Usage (Sensor State: Access Denied)	*/
+	0x0a, 0x06, 0x08,		/*    Usage (Sensor State: Error)		*/
+	0x81, 0x00,			/*    Input (Data,Arr,Abs)			*/
+	0xc0,				/*   End Collection				*/
+	0x0a, 0x02, 0x02,		/*   Usage (Event: Sensor Event)		*/
+	0x15, 0x00,			/*   Logical Minimum (0)			*/
+	0x25, 0x05,			/*   Logical Maximum (5)			*/
+	0x75, 0x08,			/*   Report Size (8)				*/
+	0x95, 0x01,			/*   Report Count (1)				*/
+	0xa1, 0x02,			/*   Collection (Logical)			*/
+	0x0a, 0x10, 0x08,		/*    Usage (Sensor Event: Unknown)		*/
+	0x0a, 0x11, 0x08,		/*    Usage (Sensor Event: State Changed)	*/
+	0x0a, 0x12, 0x08,		/*    Usage (Sensor Event: Property Changed)	*/
+	0x0a, 0x13, 0x08,		/*    Usage (Sensor Event: Data Updated)	*/
+	0x0a, 0x14, 0x08,		/*    Usage (Sensor Event: Poll Response)	*/
+	0x0a, 0x15, 0x08,		/*    Usage (Sensor Event: Change Sensitivity)	*/
+	0x81, 0x00,			/*    Input (Data,Arr,Abs)			*/
+	0xc0,				/*   End Collection				*/
+	0x0a, 0xd1, 0x04,		/*   Usage (Data Field: Illuminance)		*/
+	0x15, 0x00,			/*   Logical Minimum (0)			*/
+	0x26, 0xff, 0xff,		/*   Logical Maximum (65535)			*/
+	0x75, 0x20,			/*   Report Size (32)				*/
+	0x95, 0x01,			/*   Report Count (1)				*/
+	0x55, 0x0f,			/*   Unit Exponent (-1)				*/
+	0x81, 0x02,			/*   Input (Data,Var,Abs)			*/
 	0x06, 0xc0, 0xff,		/*   Usage Page (Vendor Usage Page 0xffc0)	*/
 	0x09, 0x02,			/*   Usage (Vendor Usage 0x02)			*/
 	0xa1, 0x01,			/*   Collection (Application)			*/

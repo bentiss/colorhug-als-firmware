@@ -69,7 +69,7 @@
 
 #else
 
-#define HID_RPT01_SIZE			88
+#define HID_RPT01_SIZE			292
 
 #define USER_GET_REPORT_HANDLER UserGetReportHandler
 #define USER_SET_REPORT_HANDLER UserSetReportHandler
