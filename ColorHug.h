@@ -47,6 +47,8 @@
 
 struct input_report {
 	uint8_t report_id;
+	uint8_t sensor_state;
+	uint8_t sensor_event;
 	uint32_t illuminance;
 };
 
@@ -374,6 +376,25 @@ typedef enum {
 	CH_FREQ_SCALE_2,
 	CH_FREQ_SCALE_100
 } ChFreqScale;
+
+typedef enum {
+	CH_UNKNOWN_STATE = 0,
+	CH_READY,
+	CH_NOT_AVAILABLE,
+	CH_NO_DATA_SEL,
+	CH_INITIALIZING,
+	CH_ACCESS_DENIED,
+	CH_ERROR
+} ChSensorState;
+
+typedef enum {
+	CH_UNKNOWN_EVENT = 0,
+	CH_STATE_CHANGED,
+	CH_PROPERTY_CHANGED,
+	CH_DATA_UPDATED,
+	CH_POLL_RESPONSE,
+	CH_CHANGE_SENSITIVITY
+} ChSensorEvent;
 
 /* fatal error morse code */
 typedef enum {

@@ -167,6 +167,8 @@ ProcessIO(void)
 		CHugSetMultiplier(CH_FREQ_SCALE_100);
 
 		TxBuffer.report_id = CH_REPORT_HID_SENSOR;
+		TxBuffer.sensor_state = CH_READY;
+		TxBuffer.sensor_event = CH_DATA_UPDATED;
 		TxBuffer.illuminance = CHugTakeReadingRaw(SensorIntegralTime);
 
 		USBInHandle = HIDTxPacket(HID_EP,
