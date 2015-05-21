@@ -162,22 +162,17 @@ ProcessIO(void)
 		return;
 
 	if(!HIDTxHandleBusy(USBInHandle)) {
-		if (multiplier != CH_FREQ_SCALE_0) {
-			/* clear for debugging */
-			memset ((uint8_t *)&TxBuffer, 0xff, sizeof (TxBuffer));
+		CHugSetMultiplier(multiplier);
 
-			CHugSetMultiplier(multiplier);
+		TxBuffer.report_id = CH_REPORT_HID_SENSOR;
+		TxBuffer.sensor_state = CH_READY; // multiplier == CH_FREQ_SCALE_100 ? CH_READY : CH_NO_DATA_SEL;
+		TxBuffer.sensor_event = CH_DATA_UPDATED;
+		TxBuffer.illuminance = CHugTakeReadingRaw(SensorIntegralTime);
 
-			TxBuffer.report_id = CH_REPORT_HID_SENSOR;
-			TxBuffer.sensor_state = CH_READY;
-			TxBuffer.sensor_event = CH_DATA_UPDATED;
-			TxBuffer.illuminance = CHugTakeReadingRaw(SensorIntegralTime);
-
-			USBInHandle = HIDTxPacket(HID_EP,
-						  (BYTE*)&TxBuffer,
-						  sizeof(TxBuffer));
-			CHugSetMultiplier(CH_FREQ_SCALE_0);
-		}
+		USBInHandle = HIDTxPacket(HID_EP,
+					  (BYTE*)&TxBuffer,
+					  sizeof(TxBuffer));
+		CHugSetMultiplier(CH_FREQ_SCALE_0);
 	} else {
 		/* nobody reads */
 		if (idle_command != 0x00) {
