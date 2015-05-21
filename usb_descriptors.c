@@ -252,8 +252,6 @@ ROM struct
 	0x0a, 0x16, 0x03,		/*   Usage (Property: Reporting State)		*/
 	0x15, 0x00,			/*   Logical Minimum (0)			*/
 	0x25, 0x02,			/*   Logical Maximum (2)			*/
-	0x75, 0x08,			/*   Report Size (8)				*/
-	0x95, 0x01,			/*   Report Count (1)				*/
 	0xa1, 0x02,			/*   Collection (Logical)			*/
 	0x0a, 0x40, 0x08,		/*    Usage (Reporting State: Report No Events)	*/
 	0x0a, 0x41, 0x08,		/*    Usage (Reporting State: Report All Events)*/
@@ -263,8 +261,6 @@ ROM struct
 	0x0a, 0x19, 0x03,		/*   Usage (Property: Power State)		*/
 	0x15, 0x00,			/*   Logical Minimum (0)			*/
 	0x25, 0x02,			/*   Logical Maximum (2)			*/
-	0x75, 0x08,			/*   Report Size (8)				*/
-	0x95, 0x01,			/*   Report Count (1)				*/
 	0xa1, 0x02,			/*   Collection (Logical)			*/
 	0x0a, 0x50, 0x08,		/*    Usage (Power State: Undefined)		*/
 	0x0a, 0x51, 0x08,		/*    Usage (Power State: D0 Full Power)	*/
@@ -274,8 +270,6 @@ ROM struct
 	0x0a, 0x01, 0x02,		/*   Usage (Event: Sensor State)		*/
 	0x15, 0x00,			/*   Logical Minimum (0)			*/
 	0x25, 0x06,			/*   Logical Maximum (6)			*/
-	0x75, 0x08,			/*   Report Size (8)				*/
-	0x95, 0x01,			/*   Report Count (1)				*/
 	0xa1, 0x02,			/*   Collection (Logical)			*/
 	0x0a, 0x00, 0x08,		/*    Usage (Sensor State: Undefined)		*/
 	0x0a, 0x01, 0x08,		/*    Usage (Sensor State: Ready)		*/
@@ -290,7 +284,6 @@ ROM struct
 	0x15, 0x00,			/*   Logical Minimum (0)			*/
 	0x27, 0xff, 0xff, 0xff, 0xff,	/*   Logical Maximum (4294967295)		*/
 	0x75, 0x20,			/*   Report Size (32)				*/
-	0x95, 0x01,			/*   Report Count (1)				*/
 	0x55, 0x00,			/*   Unit Exponent (0)				*/
 	0xb1, 0x02,			/*   Feature (Data,Var,Abs)			*/
 	0x05, 0x20,			/*   Usage Page (Sensor)			*/
@@ -312,8 +305,6 @@ ROM struct
 	0x0a, 0x02, 0x02,		/*   Usage (Event: Sensor Event)		*/
 	0x15, 0x00,			/*   Logical Minimum (0)			*/
 	0x25, 0x05,			/*   Logical Maximum (5)			*/
-	0x75, 0x08,			/*   Report Size (8)				*/
-	0x95, 0x01,			/*   Report Count (1)				*/
 	0xa1, 0x02,			/*   Collection (Logical)			*/
 	0x0a, 0x10, 0x08,		/*    Usage (Sensor Event: Unknown)		*/
 	0x0a, 0x11, 0x08,		/*    Usage (Sensor Event: State Changed)	*/
@@ -327,7 +318,6 @@ ROM struct
 	0x15, 0x00,			/*   Logical Minimum (0)			*/
 	0x26, 0xff, 0xff,		/*   Logical Maximum (65535)			*/
 	0x75, 0x20,			/*   Report Size (32)				*/
-	0x95, 0x01,			/*   Report Count (1)				*/
 	0x55, 0x0f,			/*   Unit Exponent (-1)				*/
 	0x81, 0x02,			/*   Input (Data,Var,Abs)			*/
 	0x06, 0xc0, 0xff,		/*   Usage Page (Vendor Usage Page 0xffc0)	*/
