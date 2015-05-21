@@ -232,7 +232,7 @@ USER_USB_CALLBACK_EVENT_HANDLER(int event, void *pdata, WORD size)
 }
 
 /********************************************************************
- * Function:        void UserGetReportHandler(void)
+ * Function:        void CHugGetReportHandler(void)
  *
  * PreCondition:    None
  *
@@ -256,7 +256,7 @@ USER_USB_CALLBACK_EVENT_HANDLER(int event, void *pdata, WORD size)
  * Note:
  *******************************************************************/
 void
-UserGetReportHandler(void)
+CHugGetReportHandler(void)
 {
 	uint32_t serial;
 	uint8_t bytesToSend;
@@ -322,7 +322,7 @@ CHugSetFlashSuccess(void)
  * Called when USBEP0Receive from SET_REPORT completes.
  */
 static void
-USB_HID_CB_SetReportComplete(void)
+CHugSetReportComplete(void)
 {
 	switch (SetupPkt.wValue & 0x00ff) {
 		case CH_REPORT_HID_SENSOR:
@@ -345,7 +345,7 @@ USB_HID_CB_SetReportComplete(void)
 }
 
 /********************************************************************
- * Function:        void UserSetReportHandler(void)
+ * Function:        void CHugSetReportHandler(void)
  *
  * PreCondition:    None
  *
@@ -370,7 +370,7 @@ USB_HID_CB_SetReportComplete(void)
  * Note:
  *******************************************************************/
 void
-UserSetReportHandler(void)
+CHugSetReportHandler(void)
 {
 	uint8_t bytesToReceive;
 
@@ -395,7 +395,7 @@ UserSetReportHandler(void)
 	/* Prepare EP0 to receive the control transfer data */
 	USBEP0Receive((BYTE*)&RxFeature,
 		      bytesToReceive,
-		      USB_HID_CB_SetReportComplete);
+		      CHugSetReportComplete);
 }
 
 /**
