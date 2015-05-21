@@ -274,7 +274,9 @@ CHugGetReportHandler(void)
 			TxFeature.hid.report_id = CH_REPORT_HID_SENSOR;
 			TxFeature.hid.connection_type = 0x01; /* PC External */
 			TxFeature.hid.reporting_state = 0x02; /* Report All Events */
-			TxFeature.hid.power_state = 0x01; /* Full Power */
+			TxFeature.hid.power_state = multiplier == CH_FREQ_SCALE_100 ?
+						     0x01 : /* Full Power */
+						     0x02; /* Low Power */
 			TxFeature.hid.sensor_state = CH_READY;
 			TxFeature.hid.report_interval = 1000;
 			bytesToSend = sizeof(struct hid_sensor_feature);
@@ -332,6 +334,10 @@ CHugSetReportComplete(void)
 {
 	switch (SetupPkt.wValue & 0x00ff) {
 		case CH_REPORT_HID_SENSOR:
+			if (RxFeature.hid.power_state) {
+				multiplier = RxFeature.hid.power_state == 0x01 ?
+						CH_FREQ_SCALE_100 : CH_FREQ_SCALE_0;
+			}
 			break;
 		case CH_REPORT_SENSOR_SETTINGS:
 			CHugSetColorSelect(RxFeature.sensor.color_select);
