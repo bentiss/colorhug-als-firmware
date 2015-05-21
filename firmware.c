@@ -52,7 +52,7 @@ ISRCode(void)
 }
 
 static uint16_t		SensorIntegralTime = 0xffff;
-static ChFreqScale	multiplier_old = CH_FREQ_SCALE_0;
+static ChFreqScale	multiplier = CH_FREQ_SCALE_100;
 
 /* this is used to map the firmware to a hardware version */
 static const char flash_id[] = CH_FIRMWARE_ID_TOKEN;
@@ -162,20 +162,22 @@ ProcessIO(void)
 		return;
 
 	if(!HIDTxHandleBusy(USBInHandle)) {
-		/* clear for debugging */
-		memset ((uint8_t *)&TxBuffer, 0xff, sizeof (TxBuffer));
+		if (multiplier != CH_FREQ_SCALE_0) {
+			/* clear for debugging */
+			memset ((uint8_t *)&TxBuffer, 0xff, sizeof (TxBuffer));
 
-		CHugSetMultiplier(CH_FREQ_SCALE_100);
+			CHugSetMultiplier(multiplier);
 
-		TxBuffer.report_id = CH_REPORT_HID_SENSOR;
-		TxBuffer.sensor_state = CH_READY;
-		TxBuffer.sensor_event = CH_DATA_UPDATED;
-		TxBuffer.illuminance = CHugTakeReadingRaw(SensorIntegralTime);
+			TxBuffer.report_id = CH_REPORT_HID_SENSOR;
+			TxBuffer.sensor_state = CH_READY;
+			TxBuffer.sensor_event = CH_DATA_UPDATED;
+			TxBuffer.illuminance = CHugTakeReadingRaw(SensorIntegralTime);
 
-		USBInHandle = HIDTxPacket(HID_EP,
-					  (BYTE*)&TxBuffer,
-					  sizeof(TxBuffer));
-		CHugSetMultiplier(CH_FREQ_SCALE_0);
+			USBInHandle = HIDTxPacket(HID_EP,
+						  (BYTE*)&TxBuffer,
+						  sizeof(TxBuffer));
+			CHugSetMultiplier(CH_FREQ_SCALE_0);
+		}
 	} else {
 		/* nobody reads */
 		if (idle_command != 0x00) {
@@ -204,7 +206,6 @@ USER_USB_CALLBACK_EVENT_HANDLER(int event, void *pdata, WORD size)
 		break;
 	case EVENT_SUSPEND:
 		/* need to reduce power to < 2.5mA, so power down sensor */
-		multiplier_old = CHugGetMultiplier();
 		CHugSetMultiplier(CH_FREQ_SCALE_0);
 
 		/* power down LEDs */
@@ -212,7 +213,6 @@ USER_USB_CALLBACK_EVENT_HANDLER(int event, void *pdata, WORD size)
 		break;
 	case EVENT_RESUME:
 		/* restore full power mode */
-		CHugSetMultiplier(multiplier_old);
 		break;
 	case EVENT_CONFIGURED:
 		/* enable the HID endpoint */
@@ -336,7 +336,7 @@ CHugSetReportComplete(void)
 		case CH_REPORT_SENSOR_SETTINGS:
 			CHugSetColorSelect(RxFeature.sensor.color_select);
 			CHugSetLEDs(RxFeature.sensor.LEDs_state);
-			CHugSetMultiplier(RxFeature.sensor.multiplier);
+			multiplier = RxFeature.sensor.multiplier;
 			SensorIntegralTime = RxFeature.sensor.integral_time;
 			break;
 		case CH_REPORT_SYSTEM_SETTINGS:
