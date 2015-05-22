@@ -67,7 +67,11 @@ struct sensor_settings {
 	uint8_t LEDs_state;
 	uint8_t multiplier;
 	uint16_t integral_time;
-};
+}
+#ifndef __XC8
+__attribute__((__packed__))
+#endif
+;
 
 struct system_settings {
 	uint8_t report_id;
@@ -78,7 +82,11 @@ struct system_settings {
 	uint32_t serial;
 	uint8_t reset;
 	uint8_t flash_flag;
-};
+}
+#ifndef __XC8
+__attribute__((__packed__))
+#endif
+;
 
 /**
  * CH_CMD_GET_COLOR_SELECT:
